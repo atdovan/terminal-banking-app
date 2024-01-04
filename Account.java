@@ -60,24 +60,38 @@ public class Account {
         LocalDateTime now = LocalDateTime.now();  
 
         // Updating the balance from file
+        updateReadBalance();
+
+        System.out.println("Before Deposit: " + this.balance);
+        this.balance += amount;
+        System.out.println("After Deposit: " + this.balance);
+
+        FileUtility.writeToEndOfFile(this.userID+".txt", "Deposit: " + amount + " Time: " + dtf.format(now));
+    
+    }
+
+    private void updateReadBalance() {
         try {
             this.balance = Float.parseFloat(FileUtility.readLineFromFile(this.userID+".txt", 5));
         } catch(Exception e) {
             System.out.println("Could not grab correct balance");
             balance = 0.0f;
         }
-        System.out.println("Before Deposit: " + this.balance);
-        this.balance += amount;
-        System.out.println("After Deposit: " + this.balance);
+    }
 
-         FileUtility.writeToEndOfFile(this.userID+".txt", "Deposit: " + amount + " Time: " + dtf.format(now));
-    
+    private void updateWriteBalance(float newBalance) {
+        // write a new balance
     }
 
     public void withdrawFunds(float amount) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+        LocalDateTime now = LocalDateTime.now();  
+
+        updateReadBalance();
         if (this.balance >= amount) {
             this.balance -= amount;
         }
+        FileUtility.writeToEndOfFile(this.userID+".txt", "Withdrawal: -" + amount + " Time: " + dtf.format(now));
     }
 
     public float getBalance() {

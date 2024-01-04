@@ -72,6 +72,9 @@ public class Main {
                     break;
                 }
                 case 4: {
+                    System.out.println("Enter amount to withdraw");
+                    float amount = InputUtility.getValidFloatInput();
+                    user.withdrawFunds(amount);
                     break;
                 }
                 case 5: {
