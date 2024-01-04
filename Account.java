@@ -12,9 +12,9 @@ public class Account {
     String firstName;
     String lastName;
     String password;
-    double balance;
+    float balance;
 
-    public Account(String firstName, String lastName, String password, double balance) {
+    public Account(String firstName, String lastName, String password, float balance) {
         this.userID = accountID+1;
         accountID++;
         
@@ -64,7 +64,7 @@ public class Account {
             this.balance = Float.parseFloat(FileUtility.readLineFromFile(this.userID+".txt", 5));
         } catch(Exception e) {
             System.out.println("Could not grab correct balance");
-            balance = 0.0;
+            balance = 0.0f;
         }
         System.out.println("Before Deposit: " + this.balance);
         this.balance += amount;
@@ -78,6 +78,10 @@ public class Account {
         if (this.balance >= amount) {
             this.balance -= amount;
         }
+    }
+
+    public float getBalance() {
+        return this.balance;
     }
 
     public void sendFunds(float amount, int benefiterID) {

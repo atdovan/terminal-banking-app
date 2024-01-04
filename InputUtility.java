@@ -12,9 +12,7 @@ public class InputUtility {
             if (!valid) {
                 System.out.println("Please enter valid input:");
             }
-
         }
-         
         return a;
     }
 

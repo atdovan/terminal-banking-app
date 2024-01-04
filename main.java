@@ -5,8 +5,9 @@ public class main {
         boolean exit = false;
         int choice;
         int[] choices;
-        Account user = new Account("", "", "", 0.0);
+        Account user = new Account(null, null, null, 0.0f);
 
+        clearConsole();
         System.out.println("############");
         System.out.println("# Andrew's #");
         System.out.println("#   Bank   #");
@@ -18,6 +19,7 @@ public class main {
         // operating through the login menu
         switch (choice) {
             case 1: {
+                clearConsole();
                 int userID = checkUserID();
                 String password = checkUserPassword(userID);
                 user = loginUser(userID, password);
@@ -42,29 +44,34 @@ public class main {
         }
         
         clearConsole();
-        choices = printMainMenu();
+
+        choices = printMainMenu(user);
         choice = InputUtility.getValidMenuInput(choices);
 
         switch (choice) {
             case 1: {
-                System.out.println("Current Balance: " + user.balance);
+                System.out.println("Current Balance: " + user.getBalance());
+                break;
             }
             case 2: {
                 System.out.println(user.getTransactionList());
+                break;
             }
             case 3: {
                 System.out.println("Enter amount to deposit");
                 float amount = InputUtility.getValidFloatInput();
                 user.depositFunds(amount);
+                break;
             }
             case 4: {
-
+                break;
             }
             case 5: {
-
+                break;
             }
             case 6: {
-
+                exit();
+                break;
             }
             default: {
                 //System.out.println(choice);
@@ -74,7 +81,6 @@ public class main {
     }
 
      public static int[] printLoginMenu() {
-        clearConsole();
         System.out.println("1. Access Account");
         System.out.println("2. Create Account");
         System.out.println("3. Recover Account");
@@ -84,8 +90,9 @@ public class main {
     }
 
 
-    public static int[] printMainMenu() {
+    public static int[] printMainMenu(Account user) {
         clearConsole();
+        System.out.println("Welcome, " + user.firstName + "\n");
         System.out.println("1. Get Balance");
         System.out.println("2. Get Transactions List");
         System.out.println("3. Deposit Funds");
@@ -143,8 +150,6 @@ public class main {
     public static Account loginUser(int userID, String password) {
         return new Account(userID, password);
     }
-
-   
 
     public static void exit() {
         System.out.println("exiting...");
