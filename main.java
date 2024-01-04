@@ -1,6 +1,6 @@
 import java.io.File;
 
-public class main {
+public class Main {
     public static void main(String[] args) {
         boolean exitLogin = false;
         boolean exitMain = false;
