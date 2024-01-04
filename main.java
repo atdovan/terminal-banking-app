@@ -2,7 +2,8 @@ import java.io.File;
 
 public class main {
     public static void main(String[] args) {
-        boolean exit = false;
+        boolean exitLogin = false;
+        boolean exitMain = false;
         int choice;
         int[] choices;
         Account user = new Account(null, null, null, 0.0f);
@@ -13,74 +14,83 @@ public class main {
         System.out.println("#   Bank   #");
         System.out.println("############" + "\n");
 
-        choices = printLoginMenu();
-        choice = InputUtility.getValidMenuInput(choices);
-
         // operating through the login menu
-        switch (choice) {
-            case 1: {
-                clearConsole();
-                int userID = checkUserID();
-                String password = checkUserPassword(userID);
-                user = loginUser(userID, password);
-                break;
-            }
-            case 2: {
-                user = createUser();
-                break;
-            }
-            case 3: {
-                System.out.println("Recover account printed");
-                break;
-            }
-            case 4: {
-                exit();
-                break;
-            }
-            default: {
-                System.out.println(choice);
-                break;
+        while (!exitLogin) {
+            choices = printLoginMenu();
+            choice = InputUtility.getValidMenuInput(choices);
+
+            // main menu finished
+            switch (choice) {
+                case 1: {
+                    clearConsole();
+                    int userID = checkUserID();
+                    String password = checkUserPassword(userID);
+                    user = loginUser(userID, password);
+                    exitLogin = true;
+                    break;
+                }
+                case 2: {
+                    user = createUser();
+                    exitLogin = true;
+                    break;
+                }
+                case 3: {
+                    System.out.println("Case 3");
+                    int userID = checkUserID();
+                    System.out.println("Password: " + forgotPassword(userID) + "\n");
+                    break;
+                }
+                case 4: {
+                    exit();
+                    break;
+                }
+                default: {
+                    System.out.println(choice);
+                    break;
+                }
             }
         }
-        
+
         clearConsole();
 
-        choices = printMainMenu(user);
-        choice = InputUtility.getValidMenuInput(choices);
-
-        switch (choice) {
-            case 1: {
-                System.out.println("Current Balance: " + user.getBalance());
-                break;
-            }
-            case 2: {
-                System.out.println(user.getTransactionList());
-                break;
-            }
-            case 3: {
-                System.out.println("Enter amount to deposit");
-                float amount = InputUtility.getValidFloatInput();
-                user.depositFunds(amount);
-                break;
-            }
-            case 4: {
-                break;
-            }
-            case 5: {
-                break;
-            }
-            case 6: {
-                exit();
-                break;
-            }
-            default: {
-                //System.out.println(choice);
-                break;
+        while (!exitMain) {
+            choices = printMainMenu(user);
+            choice = InputUtility.getValidMenuInput(choices);
+            switch (choice) {
+                case 1: {
+                    System.out.println("Current Balance: " + user.getBalance());
+                    break;
+                }
+                case 2: {
+                    System.out.println(user.getTransactionList());
+                    break;
+                }
+                case 3: {
+                    System.out.println("Enter amount to deposit");
+                    float amount = InputUtility.getValidFloatInput();
+                    user.depositFunds(amount);
+                    break;
+                }
+                case 4: {
+                    break;
+                }
+                case 5: {
+                    break;
+                }
+                case 6: {
+                    clearConsole();
+                    exit();
+                    break;
+                }
+                default: {
+                    // System.out.println(choice);
+                    break;
+                }
             }
         }
     }
 
-     public static int[] printLoginMenu() {
+    public static int[] printLoginMenu() {
         System.out.println("1. Access Account");
         System.out.println("2. Create Account");
         System.out.println("3. Recover Account");
@@ -88,7 +98,6 @@ public class main {
 
         return new int[] { 1, 2, 3, 4 };
     }
-
 
     public static int[] printMainMenu(Account user) {
         clearConsole();
@@ -113,7 +122,7 @@ public class main {
             break;
             // System.out.println("Please enter a valid First Name");
         }
-        // Check if userID exists. 
+        // Check if userID exists.
         File myFile = new File(userID + ".txt");
         if (!myFile.exists()) {
             System.out.println("UserID is not registered");
@@ -126,7 +135,7 @@ public class main {
         String password = "";
         boolean validPassword = false;
         // UPDATE: int passwordAttemps = 5;
-        String correctPass = FileUtility.readLineFromFile(userID+".txt", 4);
+        String correctPass = FileUtility.readLineFromFile(userID + ".txt", 4);
 
         while (!validPassword) {
             System.out.println("Enter Password: ");
@@ -139,12 +148,18 @@ public class main {
             System.out.println("Please enter a valid Password");
         }
         // already know file exists so we can read..
-        if(!password.equals(correctPass)) {
+        if (!password.equals(correctPass)) {
             System.out.println("Password does not match the UserID");
             System.out.println("Correct password: " + correctPass);
             password = checkUserPassword(userID);
         }
         return password;
+    }
+
+    public static String forgotPassword(int userID) {
+        String password = FileUtility.readLineFromFile(userID + ".txt", 4);
+        return password;
+
     }
 
     public static Account loginUser(int userID, String password) {
@@ -168,7 +183,7 @@ public class main {
         boolean validFirst = false;
         boolean validLast = false;
         boolean validPass = false;
-        //boolean validBalance = false;
+        // boolean validBalance = false;
 
         // Clear console first:
         clearConsole();
