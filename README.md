@@ -9,3 +9,6 @@ Screenshot from Login Menu:
 Screenshot from Main Menu:
 
 <img width="570" alt="Screenshot 2024-01-05 at 9 44 36 AM" src="https://github.com/atdovan/terminal-banking-app/assets/52665374/10dd3053-298a-49cf-8b25-fb636c657007">
+
+Main.java runs all of the code.
+FileUtility.java and InputUtility.java house functions for getting input and reading/writing to files to reduce code redundency.
