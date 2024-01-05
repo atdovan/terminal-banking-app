@@ -5,7 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Random;
 import java.util.Scanner;
+import java.io.RandomAccessFile;
 
 public class FileUtility {
     public static String readFile(String fileName) {
@@ -13,7 +15,7 @@ public class FileUtility {
         try {
             File myFile = new File(fileName);
             Scanner myReader = new Scanner(myFile);
-            while(myReader.hasNextLine()) {
+            while (myReader.hasNextLine()) {
                 data += myReader.nextLine();
             }
             myReader.close();
@@ -100,4 +102,55 @@ public class FileUtility {
         }
     }
 
+    public static void writeNewUser(int userID, String firstName, String lastName, String password, float balance) {
+        try (FileWriter fw = new FileWriter(userID + ".txt")) {
+            fw.write(userID + "\n");
+            fw.write(firstName + "\n");
+            fw.write(lastName + "\n");
+            fw.write(password + "\n");
+            fw.write(balance + "\n");
+            fw.close();
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+    }
+
+    public static void writeDefaultAccountCountFile() {
+        String file = "accounts.txt";
+        File myFile = new File(file);
+        if (myFile.exists()) {
+
+        } else {
+            try (FileWriter fw = new FileWriter("accounts.txt")) {
+                fw.write("10001\n");
+                fw.close();
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
+        }
+    }
+
+    public static void changeLineInFile(String file, int targetLine, String update) {
+        targetLine++;
+        update += "\n";
+        try (RandomAccessFile myFile = new RandomAccessFile(file, "rw")) {
+            long position = 0;
+            int currentLine = 1;
+
+            while (currentLine < targetLine) {
+                position = myFile.getFilePointer();
+                String line = myFile.readLine();
+                if (line == null) {
+                    break;
+                }
+                currentLine++;
+            }
+
+            myFile.seek(position);
+            myFile.writeBytes(update);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

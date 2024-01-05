@@ -2,11 +2,13 @@ import java.io.File;
 
 public class Main {
     public static void main(String[] args) {
+        FileUtility.writeDefaultAccountCountFile();
+
         boolean exitLogin = false;
         boolean exitMain = false;
         int choice;
         int[] choices;
-        Account user = new Account(null, null, null, 0.0f);
+        Account user = new Account();
 
         clearConsole();
         System.out.println("############");
@@ -58,11 +60,17 @@ public class Main {
             choice = InputUtility.getValidMenuInput(choices);
             switch (choice) {
                 case 1: {
-                    System.out.println("Current Balance: " + user.getBalance());
+                    System.out.println("Current Balance: " + user.getBalance(user.userID));
                     break;
                 }
                 case 2: {
                     System.out.println(user.getTransactionList());
+                    // gives user time to view list... (4 seconds)
+                    try {
+                        Thread.sleep(4000);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
                     break;
                 }
                 case 3: {
@@ -78,6 +86,11 @@ public class Main {
                     break;
                 }
                 case 5: {
+                    System.out.println("Enter amount to send");
+                    float amount = InputUtility.getValidFloatInput();
+                    System.out.println("Enter userID to send to");
+                    int benefiterID = InputUtility.getValidIntInput();
+                    user.sendFunds(amount, benefiterID);
                     break;
                 }
                 case 6: {
@@ -103,6 +116,11 @@ public class Main {
     }
 
     public static int[] printMainMenu(Account user) {
+        try {
+            Thread.sleep(1400);
+          } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+          }
         clearConsole();
         System.out.println("Welcome, " + user.firstName + "\n");
         System.out.println("1. Get Balance");
