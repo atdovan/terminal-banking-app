@@ -37,7 +37,6 @@ public class Main {
                     break;
                 }
                 case 3: {
-                    System.out.println("Case 3");
                     int userID = checkUserID();
                     System.out.println("Password: " + forgotPassword(userID) + "\n");
                     break;

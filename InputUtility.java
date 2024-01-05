@@ -13,7 +13,14 @@ public class InputUtility {
             return getValidIntInput();
         }
     }
-
+    public static boolean exitCharacterEntered(String exitChar) {
+        Scanner in = new Scanner(System.in);
+        String x = in.nextLine();
+        if (x.equals(exitChar)) {
+            return true;
+        }
+        return false;
+    }
     public static int getValidMenuInput(int[] choices) {
         int x = getValidIntInput();
         for (int choice : choices) {

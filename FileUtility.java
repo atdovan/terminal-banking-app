@@ -115,11 +115,12 @@ public class FileUtility {
         }
     }
 
+    // used for keeping track of userID numbers
     public static void writeDefaultAccountCountFile() {
         String file = "accounts.txt";
         File myFile = new File(file);
         if (myFile.exists()) {
-
+            return;
         } else {
             try (FileWriter fw = new FileWriter("accounts.txt")) {
                 fw.write("10001\n");
@@ -128,6 +129,12 @@ public class FileUtility {
                 e.getStackTrace();
             }
         }
+    }
+
+    public static boolean fileExists(String file) {
+        File myFile = new File(file);
+        if (myFile.exists()) { return true; }
+        return false;
     }
 
     public static void changeLineInFile(String file, int targetLine, String update) {
